@@ -28,11 +28,11 @@ function salvar(event) {
   if (arquivo) {
     const leitor = new FileReader();
 
-    leitor.onload = function () {
+    leitor.onload = function() {
       cadastrarAluno(nome, n1, n2, n3, leitor.result);
     };
 
-    leitor.onerror = function () {
+    leitor.onerror = function() {
       alert('Não foi possível carregar a imagem.');
     };
 
@@ -83,7 +83,7 @@ function preVisualizarFoto(event) {
 
   const leitor = new FileReader();
 
-  leitor.onload = function () {
+  leitor.onload = function() {
     preview.src = leitor.result;
     preview.hidden = false;
     texto.hidden = true;
@@ -154,6 +154,7 @@ function cadastrar() {
   document.getElementById('tab-cadastrar').classList.add('active');
   document.getElementById('tab-listar').classList.remove('active');
 }
+
 
 function buscar() {
   let lista = document.getElementById('lista-alunos');
