@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema Escolar</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="./js/Aluno.js" defer></script>
+    <script src="./js/script.js" defer></script>
+    <script src="./js/Filtro.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Sistema Escolar</h1>
+
+      <div class="tabs-container">
+        <button
+          class="tab-button active"
+          id="btn-cadastrar"
+          onclick="cadastrar()"
+        >
+          Cadastrar
+        </button>
+
+        <button class="tab-button" id="btn-listar" onclick="listar()">
+          Listar Alunos
+        </button>
+      </div>
+
+      <!-- Aba de cadastro -->
+      <div id="tab-cadastrar" class="tab-content active">
+        <h2>Cadastrar Aluno</h2>
+
+        <form id="form-aluno" onsubmit="salvar(event)">
+          <div class="campo">
+            <label for="nome">Nome do aluno</label>
+            <input id="nome" type="text" required />
+          </div>
+
+          <div class="campo">
+            <label for="n1">Nota 1</label>
+            <input id="n1" type="number" min="0" max="10" step="0.1" required />
+          </div>
+
+          <div class="campo">
+            <label for="n2">Nota 2</label>
+            <input id="n2" type="number" min="0" max="10" step="0.1" required />
+          </div>
+
+          <div class="campo">
+            <label for="n3">Nota 3</label>
+            <input id="n3" type="number" min="0" max="10" step="0.1" required />
+          </div>
+
+          <div class="campo">
+            <label for="foto">Foto do aluno</label>
+            <input id="foto" type="file" accept="image/*" />
+          </div>
+
+          <div class="preview-container">
+            <img
+              id="preview-foto"
+              src=""
+              alt="Pré-visualização da foto do aluno"
+              hidden
+            />
+            <br />
+          </div>
+
+          <button type="submit" class="btn-salvar">Salvar Aluno</button>
+        </form>
+      </div>
+
+      <!-- Aba de listagem -->
+      <div id="tab-listar" class="tab-content">
+        <input
+          id="valor_pesquisar"
+          type="text"
+          name="Buscar"
+          placeholder="Buscar"
+        />
+        <button onclick="buscar()" class="btn-buscar">Buscar</button>
+
+        <h2>Alunos Cadastrados</h2>
+        <span id="texto-preview">Sem alunos</span>
+        <div id="lista-alunos" class="lista-alunos">
+          <p class="mensagem-vazia">Nenhum aluno cadastrado ainda.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
