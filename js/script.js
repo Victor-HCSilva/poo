@@ -28,11 +28,11 @@ function salvar(event) {
   if (arquivo) {
     const leitor = new FileReader();
 
-    leitor.onload = function () {
+    leitor.onload = function() {
       cadastrarAluno(nome, n1, n2, n3, leitor.result);
     };
 
-    leitor.onerror = function () {
+    leitor.onerror = function() {
       alert('Não foi possível carregar a imagem.');
     };
 
@@ -83,7 +83,7 @@ function preVisualizarFoto(event) {
 
   const leitor = new FileReader();
 
-  leitor.onload = function () {
+  leitor.onload = function() {
     preview.src = leitor.result;
     preview.hidden = false;
     texto.hidden = true;
@@ -148,6 +148,7 @@ function listar() {
 }
 
 function cadastrar() {
+  // Cadastra os alunos
   document.getElementById('btn-cadastrar').classList.add('active');
   document.getElementById('btn-listar').classList.remove('active');
 
@@ -155,80 +156,56 @@ function cadastrar() {
   document.getElementById('tab-listar').classList.remove('active');
 }
 
+function display(alunosFiltrados) {
+  // Faz a exibição dos alunos, filtrados ou não
+  // Recebe uma lista de Aluno
+  let lista = document.getElementById('lista-alunos');
+  lista.replaceChildren();
+  alunosFiltrados.forEach((aluno) => {
+    const card = document.createElement('article');
+    card.className = 'aluno-card';
+
+    const foto = document.createElement('img');
+    foto.className = 'foto-aluno';
+    foto.alt = `Foto de ${aluno.nome}`;
+
+    if (aluno.foto) {
+      foto.src = aluno.foto;
+    } else {
+      foto.src = 'https://placehold.co/160x160?text=Sem+Foto';
+    }
+
+    const dados = document.createElement('div');
+    dados.className = 'dados-aluno';
+
+    const nome = document.createElement('h3');
+    nome.textContent = aluno.nome;
+
+    const media = document.createElement('p');
+    media.textContent = `Média: ${Number(aluno.media).toFixed(1)}`;
+
+    const estado = document.createElement('p');
+    estado.className = 'estado-aluno';
+    estado.textContent = aluno.gerarEstado(aluno.media);
+
+    dados.append(nome, media, estado);
+    card.append(foto, dados);
+    lista.appendChild(card);
+  });
+}
+
 function buscar() {
   let lista = document.getElementById('lista-alunos');
   lista.replaceChildren();
   const palavra = document.getElementById('valor_pesquisar').value;
-  console.log(palavra);
 
   // Aplica o filtro
   filtro = new Filtro(turma, palavra);
 
   if (palavra !== null) {
-    //Nova lista
-    f_turma = filtro.pesquisar();
-    f_turma.forEach((aluno) => {
-      const card = document.createElement('article');
-      card.className = 'aluno-card';
-
-      const foto = document.createElement('img');
-      foto.className = 'foto-aluno';
-      foto.alt = `Foto de ${aluno.nome}`;
-
-      if (aluno.foto) {
-        foto.src = aluno.foto;
-      } else {
-        foto.src = 'https://placehold.co/160x160?text=Sem+Foto';
-      }
-
-      const dados = document.createElement('div');
-      dados.className = 'dados-aluno';
-
-      const nome = document.createElement('h3');
-      nome.textContent = aluno.nome;
-
-      const media = document.createElement('p');
-      media.textContent = `Média: ${Number(aluno.media).toFixed(1)}`;
-
-      const estado = document.createElement('p');
-      estado.className = 'estado-aluno';
-      estado.textContent = aluno.gerarEstado(aluno.media);
-
-      dados.append(nome, media, estado);
-      card.append(foto, dados);
-      lista.appendChild(card);
-    });
+    let fTurma = filtro.pesquisar()
+    display(fTurma)
   } else {
-    turma.forEach((aluno) => {
-      const card = document.createElement('article');
-      card.className = 'aluno-card';
-
-      const foto = document.createElement('img');
-      foto.className = 'foto-aluno';
-      foto.alt = `Foto de ${aluno.nome}`;
-
-      if (aluno.foto) {
-        foto.src = aluno.foto;
-      } else {
-        foto.src = 'https://placehold.co/160x160?text=Sem+Foto';
-      }
-
-      const dados = document.createElement('div');
-      dados.className = 'dados-aluno';
-
-      const nome = document.createElement('h3');
-      nome.textContent = aluno.nome;
-
-      const media = document.createElement('p');
-      media.textContent = `Média: ${Number(aluno.media).toFixed(1)}`;
-
-      const estado = document.createElement('p');
-      estado.className = 'estado-aluno';
-      estado.textContent = aluno.gerarEstado(aluno.media);
-
-      dados.append(nome, media, estado);
-      card.append(foto, dados);
-      lista.appendChild(card);
-    });
+    display(turma)
   }
 }
